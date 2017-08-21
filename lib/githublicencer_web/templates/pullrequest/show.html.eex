@@ -1,0 +1,18 @@
+<h2>Show pullrequest</h2>
+
+<ul>
+
+  <li>
+    <strong>Id:</strong>
+    <%= @pullrequest.id %>
+  </li>
+
+  <li>
+    <strong>Number:</strong>
+    <%= @pullrequest.number %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: pullrequest_path(@conn, :edit, @pullrequest) %>
+<%= link "Back", to: pullrequest_path(@conn, :index) %>

@@ -1,0 +1,41 @@
+
+<section id="content">
+				<div class="container">
+
+
+						<div class="card">
+								<div class="card-header">
+										<h2> Commiter
+										</h2>
+								</div>
+
+								<div class="table-responsive">
+										<table class="table table-hover data-table-basic">
+												<thead>
+												<tr>
+														<th>ID</th>
+														<th>name</th>
+														<th>Email</th>
+														<th>Is valid</th>
+														<th>Commits</th>
+														<th>Edit</th>
+												</tr>
+												</thead>
+												<tbody>
+
+													<%= for commits <- @commiter.commits do %>
+														<tr>
+														 <td><%= commits.sha %></td>
+													 </tr>
+												 <% end %>
+
+
+												</tbody>
+										</table>
+								</div>
+						</div>
+
+				</div>
+
+		</section>
+</section>

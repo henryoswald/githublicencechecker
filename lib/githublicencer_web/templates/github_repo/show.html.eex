@@ -1,0 +1,47 @@
+<%= render GithublicencerWeb.BreadcrumbView, "breadcrumbs.html", %{github_repo: @github_repo, conn: @conn} %>
+
+<section id="content">
+				<div class="container">
+
+
+						<div class="card">
+								<div class="card-header">
+										<h2> Commiters
+										</h2>
+								</div>
+
+								<div class="table-responsive">
+										<table class="table table-hover data-table-basic">
+												<thead>
+												<tr>
+														<th>ID</th>
+														<th>name</th>
+														<th>Email</th>
+														<th>Is valid</th>
+														<th>Commits</th>
+														<th>Edit</th>
+												</tr>
+												</thead>
+												<tbody>
+
+													<%= for commiter <- @commiters do %>
+														<tr>
+														 <td><%= commiter.id %></td>
+														 <td><%= commiter.name %></td>
+														 <td><%= commiter.email %></td>
+														 <td><%= commiter.is_valid %></td>
+														 <td><a href=<%= github_repo_commiter_path(@conn, :show, @github_repo, commiter) %>> <%= commiter.commit_count %></a></td>
+														 <td> <a href=<%= github_repo_commiter_path(@conn, :edit, @github_repo, commiter) %>><button class="btn btn-primary waves-effect">Edit</button> </a></td>
+													 </tr>
+												 <% end %>
+
+
+												</tbody>
+										</table>
+								</div>
+						</div>
+
+				</div>
+
+		</section>
+</section>

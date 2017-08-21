@@ -1,0 +1,31 @@
+
+
+<div class="card">
+	<div class="card-header">
+			<h2>Link to different github account</h2>
+			<small>TODO show only if not a github account?<small>
+	</div>
+
+		<div class="card-body card-padding">
+
+			<%= form_for @changeset, @action, fn f -> %>
+			  <%= if @changeset.action do %>
+			    <div class="alert alert-danger">
+			      <p>Oops, something went wrong! Please check the errors below.</p>
+			    </div>
+			  <% end %>
+
+				<div class="form-group">
+					<%= label f, :parent_commiter_id, class: "control-label" %>
+					<%= text_input f, :parent_commiter_id,  class: "hidden" %>
+					<%= error_tag f, :parent_commiter_id %>
+
+					<input type="text" class="typeahead form-control"  placeholder="Github Users">
+				</div>
+
+			  <div class="form-group">
+			    <%= submit "Submit", class: "btn btn-primary" %>
+			  </div>
+			<% end %>
+	</div>
+</div>

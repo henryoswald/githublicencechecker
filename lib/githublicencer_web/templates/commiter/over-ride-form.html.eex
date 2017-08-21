@@ -1,0 +1,41 @@
+
+<div class="card">
+	<div class="card-header">
+			<h2>Manual Overide</h2>
+			<small>TODO show only if not valid<small>
+	</div>
+
+	<div class="card-body card-padding">
+
+		<%= form_for @changeset, @action, fn f -> %>
+		  <%= if @changeset.action do %>
+		    <div class="alert alert-danger">
+		      <p>Oops, something went wrong! Please check the errors below.</p>
+		    </div>
+		  <% end %>
+
+		  <div class="form-group checkbox">
+		    <%= label f, :manual_overide, class: "control-label" %>
+		    <%= checkbox f, :manual_overide, class: "form-control" %>
+				<i class="input-helper"></i>
+		    <%= error_tag f, :manual_overide %>
+		  </div>
+
+		  <div class="form-group">
+		    <%= label f, :note, class: "control-label" %>
+		    <%= text_input f, :note, class: "form-control" %>
+		    <%= error_tag f, :note %>
+		  </div>
+
+			<div class="form-group">
+				<input type="text" class="typeahead form-control" placeholder="States of USA">
+			</div>
+
+
+		  <div class="form-group">
+		    <%= submit "Submit", class: "btn btn-primary" %>
+		  </div>
+		<% end %>
+
+	</div>
+</div>

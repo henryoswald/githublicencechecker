@@ -1,0 +1,24 @@
+<%= render GithublicencerWeb.BreadcrumbView, "breadcrumbs.html", %{github_repo: @commiter.github_repo, commiter: @commiter, conn: @conn} %>
+
+<section id="content">
+
+	<div class="container">
+
+		<%= if @commiter.parent_commiter_id do %>
+			<%= render "unlink-form.html", commiter: @commiter, changeset: @changeset,
+								action: github_repo_commiter_path(@conn, :update, @commiter.github_repo, @commiter) %>
+		<% else %>
+			<%= render "link-form.html", changeset: @changeset,
+								action: github_repo_commiter_path(@conn, :update, @commiter.github_repo, @commiter) %>
+
+		<% end %>
+
+		<%= render "over-ride-form.html", changeset: @changeset,
+							action: github_repo_commiter_path(@conn, :update, @commiter.github_repo, @commiter) %>
+
+
+
+
+	</div>
+
+</section>

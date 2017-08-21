@@ -1,0 +1,31 @@
+defmodule GithublicencerWeb.GithubRepoView do
+  use GithublicencerWeb, :view
+
+
+  def render("index.json", %{github_repos: github_repos}) do
+    %{data: render_many(github_repos, GithublicencerWeb.GithubRepoView, "github_repo.json")}
+  end
+
+  def render("show.json", %{github_repo: github_repo}) do
+    %{data: render_one(github_repo, GithublicencerWeb.GithubRepoView, "github_repo.json")}
+  end
+
+	def render("github_repo.json", %{github_repo: github_repo}) do
+		%{
+			id: github_repo.id,
+			name: github_repo.name,
+			owner: github_repo.owner,
+			user_agreements: render_many(github_repo.user_agreements, GithublicencerWeb.GithubRepoView, "user_agreements.json", as: :user_agreements)
+		}
+	end
+
+	def render("user_agreements.json", %{user_agreements: user_agreements}) do
+		%{
+			id: user_agreements.id,
+			is_valid: user_agreements.is_vaild
+		}
+	end
+
+
+
+end

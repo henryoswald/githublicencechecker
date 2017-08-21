@@ -1,0 +1,48 @@
+
+
+<div class="card">
+	<div class="card-header">
+			<h2>Linked commiter</h2>
+	</div>
+
+		<div class="card-body card-padding">
+
+			<div class="pmb-block">
+        <div class="pmbb-body ">
+            <div class="pmbb-view">
+                <dl class="dl-horizontal">
+                    <dt>Name</dt>
+                    <dd><%= @commiter.parent_commiter.name %></dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Email</dt>
+                    <dd><%= @commiter.parent_commiter.email %></dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>github profile</dt>
+                    <dd><%= @commiter.parent_commiter.github_user_id %></dd>
+                </dl>
+
+            </div>
+
+        </div>
+    </div>
+
+		<%= form_for @changeset, @action, fn f -> %>
+		  <%= if @changeset.action do %>
+		    <div class="alert alert-danger">
+		      <p>Oops, something went wrong! Please check the errors below.</p>
+		    </div>
+		  <% end %>
+
+			<div class="form-group">
+				<%= text_input f, :parent_commiter_id, class: "hidden", value: nil %>
+				<%= error_tag f, :parent_commiter_id %>
+			</div>
+
+		  <div class="form-group">
+		    <%= submit "Unlink", class: "btn btn-primary" %>
+		  </div>
+		<% end %>
+	</div>
+</div>

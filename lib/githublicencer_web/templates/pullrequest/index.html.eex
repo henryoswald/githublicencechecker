@@ -1,0 +1,28 @@
+<h2>Listing pullrequests</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Number</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for pullrequest <- @pullrequests do %>
+    <tr>
+      <td><%= pullrequest.id %></td>
+      <td><%= pullrequest.number %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: pullrequest_path(@conn, :show, pullrequest), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: pullrequest_path(@conn, :edit, pullrequest), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: pullrequest_path(@conn, :delete, pullrequest), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New pullrequest", to: pullrequest_path(@conn, :new) %>

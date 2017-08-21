@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Licence Sherlock</title>
+
+        <!-- Vendor CSS -->
+        <link href="/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+        <link href="/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+				<link href="/vendors/bower_components/datatables.net-dt/css/jquery.dataTables.min.css" rel="stylesheet">
+
+        <!-- CSS -->
+        <link href="/css/app.css" rel="stylesheet">
+
+				<!-- Javascript Libraries -->
+				<script src="/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+				<script src="/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+				<script src="/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+				<script src="/vendors/bower_components/Waves/dist/waves.min.js"></script>
+				<script src="/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+				<script src="/vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script>
+
+				<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+
+				<script type="text/javascript">
+						$(document).ready(function() {
+								$('.data-table-basic').DataTable();
+								$(".clickable-row").click(function() {
+						        window.location = $(this).data("href");
+						    })
+						} );
+				</script>
+
+    </head>
+
+    <body>
+        <header id="header" class="clearfix" data-ma-theme="blue">
+            <ul class="h-inner">
+							<%= if current_user(@conn) do %>
+                <li class="hi-trigger ma-trigger" data-ma-action="sidebar-open" data-ma-target="#sidebar">
+                    <div class="line-wrap">
+                        <div class="line top"></div>
+                        <div class="line center"></div>
+                        <div class="line bottom"></div>
+                    </div>
+                </li>
+							<% end %>
+
+
+                <li class="hi-logo hidden-xs">
+                    <a href="index.html">Licence Sherlock</a>
+                </li>
+
+								<li class="pull-right">
+
+
+                    <ul class="hi-menu">
+											<%= if current_user(@conn) do %>
+
+                        <li data-ma-action="search-open">
+                            <a href=""><i class="him-icon zmdi zmdi-search"></i></a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" href=""><i class="him-icon zmdi zmdi-more-vert"></i></a>
+                            <ul class="dropdown-menu pull-right">
+                                <li class="hidden-xs">
+                                    <a data-ma-action="fullscreen" href="">Toggle Fullscreen</a>
+                                </li>
+                                <li>
+                                    <a href="">Privacy Settings</a>
+                                </li>
+                                <li>
+                                    <a href="">Other Settings</a>
+                                </li>
+                            </ul>
+                        </li>
+												<% else %>
+												<li>
+													<a href="/auth/github">Login</a>
+												</li>
+
+												<% end %>
+
+                    </ul>
+                </li>
+
+            </ul>
+
+            <!-- Top Search Content -->
+            <div class="h-search-wrap">
+                <div class="hsw-inner">
+                    <i class="hsw-close zmdi zmdi-arrow-left" data-ma-action="search-close"></i>
+                    <input type="text">
+                </div>
+            </div>
+        </header>
+
+        	<section id="main">
+						<%= if current_user(@conn) do %>
+
+            <aside id="sidebar" class="sidebar c-overflow">
+                <div class="s-profile">
+		                  <a href="" data-ma-action="profile-menu-toggle">
+		                      <div class="sp-pic">
+		                          <img src="<%= current_user(@conn).avatar_url %>" alt="">
+		                      </div>
+
+		                      <div class="sp-info">
+														<%= current_user(@conn).github_id %>
+
+
+		                          <i class="zmdi zmdi-caret-down"></i>
+		                      </div>
+		                  </a>
+
+
+                    <ul class="main-menu">
+                        <li>
+                            <a href=""><i class="zmdi zmdi-account"></i> View Profile</a>
+                        </li>
+                        <li>
+                            <%= link "Log out", to: auth_path(@conn, :delete) %>
+                        </li>
+                    </ul>
+                </div>
+
+                <ul class="main-menu">
+                    <li><a href="<%= github_repo_path(@conn, :index) %>"><i class="zmdi zmdi-format-underlined"></i> Repos</a></li>
+                    <li><a href="<%= pullrequest_path(@conn, :index) %>"><i class="zmdi zmdi-view-list"></i> Pull Requests</a></li>
+
+                </ul>
+            </aside>
+				<% end %>
+
+				<main role="main">
+						<%= render @view_module, @view_template, assigns %>
+				</main>
+
+        <footer id="footer">
+            Copyright &copy; 2017 Licence Sherlock
+
+            <ul class="f-menu">
+                <li><a href="">Home</a></li>
+                <li><a href="">Dashboard</a></li>
+                <li><a href="">Reports</a></li>
+                <li><a href="">Support</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+        </footer>
+
+
+    </body>
+  </html>

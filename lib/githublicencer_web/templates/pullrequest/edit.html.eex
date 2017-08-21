@@ -1,0 +1,6 @@
+<h2>Edit pullrequest</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: pullrequest_path(@conn, :update, @pullrequest) %>
+
+<%= link "Back", to: pullrequest_path(@conn, :index) %>

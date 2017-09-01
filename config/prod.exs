@@ -19,7 +19,7 @@ config :GithublicencerWeb, GithublicencerWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :GithublicencerWeb, GithublicencerWeb.Repo,
-  adapter: Ecto.Adapters.Postgres,
+	adapter: Ecto.Adapters.Postgres,
   url: {:system, "DATABASE_URL"},
   database: "",
   ssl: true,

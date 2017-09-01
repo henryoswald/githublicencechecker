@@ -14,7 +14,16 @@ use Mix.Config
 config :GithublicencerWeb, GithublicencerWeb.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [host: "example.com", port: 80],
+  server: true,
+  secret_key_base: "${SECRET_KEY_BASE}",
   cache_static_manifest: "priv/static/cache_manifest.json"
+
+config :GithublicencerWeb, GithublicencerWeb.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: {:system, "DATABASE_URL"},
+  database: "",
+  ssl: true,
+  pool_size: 10
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -58,4 +67,4 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"

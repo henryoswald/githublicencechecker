@@ -1,4 +1,4 @@
-defmodule Githublicencer.PageControllerTest do
+defmodule GithublicencerWeb.PageControllerTest do
   use GithublicencerWeb.ConnCase
 
   test "GET /", %{conn: conn} do

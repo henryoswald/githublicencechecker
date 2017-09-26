@@ -1,7 +1,7 @@
-defmodule Githublicencer.PullrequestTest do
-  use Githublicencer.ModelCase
+defmodule GithublicencerWeb.PullrequestTest do
+  use GithublicencerWeb.ModelCase
 
-  alias Githublicencer.Pullrequest
+  alias GithublicencerWeb.Pullrequest
 
   @valid_attrs %{id: 42, number: 42}
   @invalid_attrs %{}

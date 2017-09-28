@@ -1,5 +1,5 @@
 defmodule GithublicencerWeb.PageController do
-  use GithublicencerWeb, :controller
+	use GithublicencerWeb, :controller
 
   def index(conn, _params) do
 		IO.puts("hellllo world")
@@ -11,5 +11,10 @@ defmodule GithublicencerWeb.PageController do
 		# IO.inspect(i)
 		IO.inspect(get_session(conn, :current_user))
     render conn, "index.html"
-  end
+	end
+	
+	def show(conn, %{"page" => "unauthorized"}) do
+		redirect conn, "/login"
+	end
+
 end

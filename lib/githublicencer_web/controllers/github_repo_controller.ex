@@ -2,7 +2,6 @@ defmodule GithublicencerWeb.GithubRepoController do
 	use GithublicencerWeb, :controller
 
 	alias GithublicencerWeb.GithubRepo
-	require IEx
 	
 	def index(conn, _params) do
 		repos = (get_session(conn, :current_user) 

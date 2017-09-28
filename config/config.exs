@@ -17,6 +17,8 @@ config :GithublicencerWeb, GithublicencerWeb.Endpoint,
   pubsub: [name: GithublicencerWeb.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :tentacat, :access_token, "306c871c7024b0583cf6e3ac63e48089c0d1840d"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

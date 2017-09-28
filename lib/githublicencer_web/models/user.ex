@@ -3,11 +3,10 @@ defmodule GithublicencerWeb.User do
 
   schema "user" do
     field :github_id, :string
-
     field :name, :string
-
     field :avatar_url, :string
-
+    has_many :github_repos, GithublicencerWeb.GithubRepo
+    
     timestamps()
   end
 

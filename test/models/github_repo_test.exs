@@ -15,4 +15,5 @@ defmodule GithublicencerWeb.GithubRepoTest do
     changeset = GithubRepo.changeset(%GithubRepo{}, @invalid_attrs)
     refute changeset.valid?
   end
+
 end

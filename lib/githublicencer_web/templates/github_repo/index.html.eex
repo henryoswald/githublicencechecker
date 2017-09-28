@@ -1,4 +1,4 @@
-<%= render GithublicencerWeb.BreadcrumbView, "breadcrumbs.html", %{owner: @github_repos |> List.first |> Map.get(:owner), conn: @conn} %>
+<%= render GithublicencerWeb.BreadcrumbView, "breadcrumbs.html", %{owner: @github_repo_owner, conn: @conn} %>
 
 <section id="content">
 

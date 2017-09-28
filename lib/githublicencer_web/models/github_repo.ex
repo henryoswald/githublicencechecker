@@ -3,9 +3,7 @@ defmodule GithublicencerWeb.GithubRepo do
   use GithublicencerWeb, :model
 
   schema "github_repos" do
-
     field :github_id, :integer
-
     field :name, :string
 		field :owner, :string
 

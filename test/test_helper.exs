@@ -1,4 +1,4 @@
 ExUnit.start
 
-Ecto.Adapters.SQL.Sandbox.mode(Githublicencer.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(GithublicencerWeb.Repo, :manual)
 

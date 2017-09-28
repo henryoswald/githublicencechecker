@@ -1,7 +1,7 @@
-defmodule Githublicencer.CommiterTest do
-  use Githublicencer.ModelCase
+defmodule GithublicencerWeb.CommiterTest do
+  use GithublicencerWeb.ModelCase
 
-  alias Githublicencer.Commiter
+  alias GithublicencerWeb.Commiter
 
   @valid_attrs %{email: "some content", github_user_id: 42, name: "some content"}
   @invalid_attrs %{}

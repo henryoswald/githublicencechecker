@@ -1,7 +1,7 @@
-defmodule Githublicencer.CommitControllerTest do
+defmodule GithublicencerWeb.CommitControllerTest do
   use GithublicencerWeb.ConnCase
 
-  alias Githublicencer.Commit
+  alias GithublicencerWeb.Commit
   @valid_attrs %{commiter: 42, github_repo: 42, pullrequest: 42, sha: "some content"}
   @invalid_attrs %{}
 

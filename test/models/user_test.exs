@@ -1,7 +1,7 @@
-defmodule Githublicencer.UserTest do
-  use Githublicencer.ModelCase
+defmodule GithublicencerWeb.UserTest do
+  use GithublicencerWeb.ModelCase
 
-  alias Githublicencer.User
+  alias GithublicencerWeb.User
 
   @valid_attrs %{avatar_url: "some content", github_id: "some content", name: "some content"}
   @invalid_attrs %{}

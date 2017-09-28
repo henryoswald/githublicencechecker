@@ -1,7 +1,7 @@
-defmodule Githublicencer.GithubRepoTest do
-  use Githublicencer.ModelCase
+defmodule GithublicencerWeb.GithubRepoTest do
+  use GithublicencerWeb.ModelCase
 
-  alias Githublicencer.GithubRepo
+  alias GithublicencerWeb.GithubRepo
 
   @valid_attrs %{github_id: 42, id: 42, user_id: 42}
   @invalid_attrs %{}
@@ -15,4 +15,5 @@ defmodule Githublicencer.GithubRepoTest do
     changeset = GithubRepo.changeset(%GithubRepo{}, @invalid_attrs)
     refute changeset.valid?
   end
+
 end

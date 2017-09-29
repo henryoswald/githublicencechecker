@@ -1,0 +1,14 @@
+<section id="content">
+
+  <div class="container">
+    <div class="block-header">
+      <h2>Link a new repository</h2>
+    </div>
+    <%= form_for @conn, github_link_path(@conn, :create), [as: :github_link], fn f -> %>
+      <%= PBF.select f, :licence, @changeset.licences %>
+      <%= PBF.select f, :repository, @changeset.repositories %>
+      <%= PBF.submit f %>
+    <% end %>
+
+  </div>
+</section>

@@ -1,9 +1,11 @@
-
-
 defmodule GithublicencerWeb.Plugs.RequireUser do
+  @moduledoc """
+  Ensure that a user is Logger In
+  """
   import Plug.Conn
 
-  def init(opts) do; opts; end;
+  def init(opts) do opts end
+
   def call(conn, _opts) do
     if Plug.Conn.get_session(conn, :current_user) do
       conn

@@ -50,6 +50,8 @@ defmodule GithublicencerWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
+      alias PhoenixBootstrapForm, as: PBF
+
       import GithublicencerWeb.Router.Helpers
       import GithublicencerWeb.ErrorHelpers
       import GithublicencerWeb.Gettext

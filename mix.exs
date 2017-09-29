@@ -42,7 +42,10 @@ defmodule Githublicencer.Mixfile do
 		 {:tentacat, "~> 0.6"},
 		 {:ueberauth, "~> 0.4"},
 		 {:ueberauth_github, "~> 0.4"},
-		 {:exfmt, [github: "lpil/exfmt"]}
+		 {:exfmt, [github: "lpil/exfmt"]},
+     {:dogma, "~> 0.1", only: :dev},
+     {:phoenix_bootstrap_form, "~> 0.0.1"}
+
  ]
   end
 

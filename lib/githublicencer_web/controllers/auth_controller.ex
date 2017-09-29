@@ -44,7 +44,12 @@ defmodule GithublicencerWeb.AuthController do
 		user = Repo.get_by(User, github_id: auth.uid)
 
 		if is_nil(user) do
-			changeset = User.changeset(%User{}, %{github_id: auth.uid, name: auth.info.name, avatar_url: auth.info.urls.avatar_url})
+			changeset = User.changeset(%User{}, %{
+				github_id: auth.uid,
+				name: auth.info.name,
+				avatar_url: auth.info.urls.avatar_url,
+				access_token: auth.credentials.token
+			})
 			case Repo.insert(changeset) do
 				{:ok, user} ->
 					{:ok, user}

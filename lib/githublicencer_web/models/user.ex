@@ -6,7 +6,7 @@ defmodule GithublicencerWeb.User do
     field :name, :string
     field :avatar_url, :string
     field :access_token, :string
-    has_many :github_repos, GithublicencerWeb.GithubRepo
+    has_many :repositories, GithublicencerWeb.GithubRepo
 
     timestamps()
   end

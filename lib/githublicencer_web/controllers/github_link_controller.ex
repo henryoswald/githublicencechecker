@@ -2,26 +2,25 @@ defmodule GithublicencerWeb.GithubLinkController do
   use GithublicencerWeb, :controller
   plug GithublicencerWeb.Plugs.RequireUser
 
-
-  defp client do
-    Tentacat.Client.new(%{access_token: Application.get_env(:tentacat, :access_token)})
-  end
-
-
+  import IEx
   def index(conn, _params) do
-    all_repos = Tentacat.Repositories.list_users("antonydenyer", client())
-    linked_repo_names = (get_session(conn, :current_user)
+    user = get_session(conn, :current_user)
+
+    client = Tentacat.Client.new(%{access_token: user.access_token})
+    all_repositories = Tentacat.Repositories.list_mine(client)
+
+    linked_repo_names = (user
               |> Repo.preload(:github_repos))
               .github_repos
               |> Enum.map(& &1.name)
 
-    filter = fn i -> Enum.any?(linked_repo_names, & &1 != i) end
+    filter = fn i -> !Enum.any?([]) or Enum.any?(linked_repo_names, & &1["full_name"] != i) end
 
-    repos = Enum.map(all_repos, & &1["full_name"])
-            |> Enum.filter(filter)
+    repositories = Enum.map(all_repositories, &Map.take(&1, ["full_name" , "fork"]))
+                |> Enum.filter(filter)
 
     changeset = %{
-      repositories: repos,
+      repositories: repositories,
       licences: ["CLA 1", "CLA 2"]
     }
     render conn, "index.html" , changeset: changeset

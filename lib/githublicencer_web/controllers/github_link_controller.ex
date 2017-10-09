@@ -66,6 +66,7 @@ defmodule GithublicencerWeb.GithubLinkController do
     if !repository_exists do
       Repo.insert(GithubRepo.changeset(%GithubRepo{
         repository_id: repository["id"],
+        fork: repository["fork"],
         user_id: user_id,
         name: name,
         owner: owner,

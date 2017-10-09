@@ -24,6 +24,6 @@ defmodule GithublicencerWeb.GithubRepo do
     struct
     |> cast(params, [:repository_id, :user_id, :name, :owner, :hook_id, :repository_type])
     |> validate_required([:repository_id, :user_id])
-		|> unique_constraint(:repository_id)
+		|> unique_constraint(:user_repositories_index)
   end
 end

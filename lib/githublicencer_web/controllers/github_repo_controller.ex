@@ -2,18 +2,19 @@ defmodule GithublicencerWeb.GithubRepoController do
 	use GithublicencerWeb, :controller
 
 	alias GithublicencerWeb.GithubRepo
-	
+
 	def index(conn, _params) do
-		repos = (get_session(conn, :current_user) 
-							|> Repo.preload(:github_repos))
-							.github_repos
-							
-		
+		repos = (get_session(conn, :current_user)
+							|> Repo.preload(:repositories))
+							.repositories
+
+
 		repos = Repo.preload(repos, :commits)
+		repos = Repo.preload(repos, :commiter)
 
 		github_repo_owner = repos |> List.first || %{} |> Map.get(:owner)
-		
-		render(conn, "index.html", github_repos: repos, github_repo_owner: github_repo_owner)
+
+		render(conn, "index.html", repositories: repos, github_repo_owner: github_repo_owner)
 	end
 
 

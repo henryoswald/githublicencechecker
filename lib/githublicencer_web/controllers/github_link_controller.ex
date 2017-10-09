@@ -23,8 +23,6 @@ defmodule GithublicencerWeb.GithubLinkController do
 
     filter = fn i -> !Enum.any?(linked_repo_names) or Enum.any?(linked_repo_names, & "#{Map.get(&1, :owner)}/#{Map.get(&1, :name)}" != i["full_name"]) end
 
-    IEx.pry
-
     repositories = Enum.map(all_repositories, &Map.take(&1, ["full_name" , "fork"]))
                 |> Enum.filter(filter)
 
@@ -56,15 +54,25 @@ defmodule GithublicencerWeb.GithubLinkController do
       }
       {_, hook} = Tentacat.Hooks.create(owner, name, hook_body, client(conn))
     end
-    changeset = %GithubRepo{
-      user_id: current_user(conn).id,
-			name: name,
-      owner: owner,
-      repository_id: repository["id"],
-      repository_type: "github",
-			hook_id: hook["id"]
-    }
-    Repo.insert_or_update(GithubRepo.changeset(changeset))
+
+    user_id = current_user(conn).id
+
+
+    repository_exists = GithubRepo
+      |> where(repository_id: ^repository["id"])
+      |> where(user_id: ^user_id)
+      |> Repo.one
+
+    if !repository_exists do
+      Repo.insert(GithubRepo.changeset(%GithubRepo{
+        repository_id: repository["id"],
+        user_id: user_id,
+        name: name,
+        owner: owner,
+        repository_type: "github",
+        hook_id: hook["id"]
+      }))
+    end
 
     redirect(conn, to: github_link_path(conn, :index))
   end

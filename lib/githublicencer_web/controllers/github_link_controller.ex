@@ -21,10 +21,11 @@ defmodule GithublicencerWeb.GithubLinkController do
               |> Repo.preload(:repositories))
               .repositories
 
-    filter = fn i -> !Enum.any?(linked_repo_names) or Enum.any?(linked_repo_names, & "#{Map.get(&1, :owner)}/#{Map.get(&1, :name)}" != i["full_name"]) end
+    filter = fn i -> !Enum.any?(linked_repo_names, & "#{Map.get(&1, :owner)}/#{Map.get(&1, :name)}" == i["full_name"]) end
 
     repositories = Enum.map(all_repositories, &Map.take(&1, ["full_name" , "fork"]))
-                |> Enum.filter(filter)
+                # |> Enum.filter(filter)
+
 
     changeset = %{
       repositories: repositories,

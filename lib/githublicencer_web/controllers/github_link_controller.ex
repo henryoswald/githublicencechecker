@@ -61,15 +61,11 @@ defmodule GithublicencerWeb.GithubLinkController do
 
     user_id = current_user(conn).id
 
-    repository = GithubRepo
+    repository = (GithubRepo
       |> where(repository_id: ^github_repo["id"])
       |> where(user_id: ^user_id)
       |> Repo.one
-      |> Repo.preload(:commiters)
-
-
-    if !repository do
-      repository = Repo.insert!(GithubRepo.changeset(%GithubRepo{
+      || Repo.insert!(GithubRepo.changeset(%GithubRepo{
         repository_id: github_repo["id"],
         fork: github_repo["fork"],
         user_id: user_id,
@@ -78,23 +74,20 @@ defmodule GithublicencerWeb.GithubLinkController do
         owner_id: github_repo["owner"]["id"],
         repository_type: "github",
         hook_id: hook["id"]
-      }))
+      })))
       |> Repo.preload(:commiters)
 
-    end
-
-
-    new_contributors_filter = fn i -> i["id"] != repository.owner_id && !Enum.any?(repository.commiters, & &1.github_user_id == i["id"]) end
-    map_to_changeset = fn(i) -> Commiter.changeset(%Commiter{
-      name: i["login"],
-      github_user_id: i["id"] ,
+    new_contributors_filter = fn contributor -> contributor["id"] != repository.owner_id && !Enum.any?(repository.commiters, & &1.github_user_id == contributor["id"]) end
+    map_contributor_to_commiter_changeset = fn contributor -> Commiter.changeset(%Commiter{
+      name: contributor["login"],
+      github_user_id: contributor["id"] ,
       github_repo_id: repository.id,
     }) end
     multi_insert = fn {changeset, index}, multi -> Ecto.Multi.insert(multi, index, changeset) end
 
     new_contributors = Tentacat.Repositories.Contributors.list(owner, name, client(conn))
                         |> Enum.filter(new_contributors_filter)
-                        |> Enum.map(map_to_changeset)
+                        |> Enum.map(map_contributor_to_commiter_changeset)
                         |> Enum.with_index
                         |> Enum.reduce(Ecto.Multi.new, multi_insert)
 

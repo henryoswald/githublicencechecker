@@ -10,7 +10,7 @@ defmodule GithublicencerWeb.GithubRepoController do
 
 
 		repos = Repo.preload(repos, :commits)
-		repos = Repo.preload(repos, :commiter)
+		repos = Repo.preload(repos, :commiters)
 
 		github_repo_owner = repos |> List.first || %{} |> Map.get(:owner)
 

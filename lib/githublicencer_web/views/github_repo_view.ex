@@ -1,6 +1,9 @@
 defmodule GithublicencerWeb.GithubRepoView do
   use GithublicencerWeb, :view
 
+	use Phoenix.HTML
+
+	require IEx
 
   def render("index.json", %{github_repos: github_repos}) do
     %{data: render_many(github_repos, GithublicencerWeb.GithubRepoView, "github_repo.json")}
@@ -26,6 +29,12 @@ defmodule GithublicencerWeb.GithubRepoView do
 		}
 	end
 
-
-
+	def link_to(repository) do
+		text = repository.owner <> "/" <> repository.name
+		repository_link = "https://" <> repository.repository_type <> ".com/" <> text
+		tag(:span, class: repository.repository_type)
+			[
+				link(text, to: repository_link)
+			]
+	end
 end

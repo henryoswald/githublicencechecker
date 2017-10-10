@@ -14,7 +14,7 @@ defmodule GithublicencerWeb.GithubRepo do
 
 		belongs_to :user, GithublicencerWeb.User
 		has_many :commits, GithublicencerWeb.Commit
-		has_many :commiter, GithublicencerWeb.Commiter
+		has_many :commiters, GithublicencerWeb.Commiter
 
   end
 

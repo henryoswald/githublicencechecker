@@ -8,6 +8,7 @@ defmodule GithublicencerWeb.GithubRepo do
     field :name, :string
 		field :owner, :string
 		field :hook_id, :integer
+		field :owner_id, :integer
 		field :repository_type, :string
 
     timestamps()
@@ -23,7 +24,7 @@ defmodule GithublicencerWeb.GithubRepo do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:repository_id, :user_id, :name, :owner, :hook_id, :repository_type, :fork])
+    |> cast(params, [:repository_id, :user_id, :name, :owner, :hook_id, :repository_type, :fork, :owner_id])
     |> validate_required([:repository_id, :user_id])
 		|> unique_constraint(:user_repositories_index)
   end

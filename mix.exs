@@ -39,7 +39,7 @@ defmodule Githublicencer.Mixfile do
      {:gettext, "~> 0.11"},
      {:distillery, "~> 1.0.0"},
      {:cowboy, "~> 1.0"},
-		 {:tentacat, "~> 0.6"},
+		 {:tentacat, [github: "antonydenyer/tentacat"]},
 		 {:ueberauth, "~> 0.4"},
 		 {:ueberauth_github, "~> 0.4"},
 		 {:exfmt, [github: "lpil/exfmt"]},

@@ -1,5 +1,7 @@
 defmodule GithublicencerWeb.GithubLinkController do
   alias GithublicencerWeb.GithubRepo
+  alias GithublicencerWeb.Commiter
+
   use GithublicencerWeb, :controller
   plug GithublicencerWeb.Plugs.RequireUser
 
@@ -13,6 +15,7 @@ defmodule GithublicencerWeb.GithubLinkController do
     Tentacat.Client.new(%{access_token: current_user(conn).access_token})
   end
 
+
   def index(conn, _params) do
 
     all_repositories = Tentacat.Repositories.list_mine(client(conn))
@@ -24,7 +27,7 @@ defmodule GithublicencerWeb.GithubLinkController do
     filter = fn i -> !Enum.any?(linked_repo_names, & "#{Map.get(&1, :owner)}/#{Map.get(&1, :name)}" == i["full_name"]) end
 
     repositories = Enum.map(all_repositories, &Map.take(&1, ["full_name" , "fork"]))
-                # |> Enum.filter(filter)
+                |> Enum.filter(filter)
 
 
     changeset = %{
@@ -39,7 +42,7 @@ defmodule GithublicencerWeb.GithubLinkController do
     split = String.split(link["repository"], "/")
     owner = Enum.at(split, 0)
     name = Enum.at(split, 1)
-    repository = Tentacat.Repositories.repo_get(owner, name, client(conn))
+    github_repo = Tentacat.Repositories.repo_get(owner, name, client(conn))
     hook = Tentacat.Hooks.list(owner, name, client(conn))
             |> Enum.find(& String.contains?(&1["config"]["url"], "hooks/github/#{owner}/#{name}"))
 
@@ -58,23 +61,46 @@ defmodule GithublicencerWeb.GithubLinkController do
 
     user_id = current_user(conn).id
 
-
-    repository_exists = GithubRepo
-      |> where(repository_id: ^repository["id"])
+    repository = GithubRepo
+      |> where(repository_id: ^github_repo["id"])
       |> where(user_id: ^user_id)
       |> Repo.one
+      |> Repo.preload(:commiters)
 
-    if !repository_exists do
-      Repo.insert(GithubRepo.changeset(%GithubRepo{
-        repository_id: repository["id"],
-        fork: repository["fork"],
+
+    if !repository do
+      repository = Repo.insert!(GithubRepo.changeset(%GithubRepo{
+        repository_id: github_repo["id"],
+        fork: github_repo["fork"],
         user_id: user_id,
         name: name,
         owner: owner,
+        owner_id: github_repo["owner"]["id"],
         repository_type: "github",
         hook_id: hook["id"]
       }))
+      |> Repo.preload(:commiters)
+
     end
+
+
+    new_contributors_filter = fn i -> i["id"] != repository.owner_id && !Enum.any?(repository.commiters, & &1.github_user_id == i["id"]) end
+    map_to_changeset = fn(i) -> Commiter.changeset(%Commiter{
+      name: i["login"],
+      github_user_id: i["id"] ,
+      github_repo_id: github_repo["id"],
+    }) end
+    multi_insert = fn {changeset, index}, multi -> Ecto.Multi.insert(multi, index, changeset) end
+
+    new_contributors = Tentacat.Repositories.Contributors.list(owner, name, client(conn))
+                        |> Enum.filter(new_contributors_filter)
+                        |> Enum.map(map_to_changeset)
+                        |> Enum.with_index
+                        |> Enum.reduce(Ecto.Multi.new, multi_insert)
+
+
+    Repo.transaction(new_contributors)
+
 
     redirect(conn, to: github_link_path(conn, :index))
   end

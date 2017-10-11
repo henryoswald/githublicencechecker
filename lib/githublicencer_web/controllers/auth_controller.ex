@@ -41,19 +41,20 @@ defmodule GithublicencerWeb.AuthController do
 	end
 
 	defp find_or_create(auth) do
-		user = Repo.get_by(User, github_id: auth.uid)
+		user = Repo.get_by(User, github_id: auth.uid) || %User{}
 
-		if is_nil(user) do
-			changeset = User.changeset(%User{}, %{github_id: auth.uid, name: auth.info.name, avatar_url: auth.info.urls.avatar_url})
-			case Repo.insert(changeset) do
-				{:ok, user} ->
-					{:ok, user}
-				{:error, changeset} ->
-					{:error, changeset}
-			end
-		else
-			IO.inspect(user)
-			{:ok, user}
+		params =  %{
+			github_id: auth.uid,
+			name: auth.info.name,
+			avatar_url: auth.info.urls.avatar_url,
+			access_token: auth.credentials.token
+		}
+
+		case Repo.insert_or_update(User.changeset(user, params)) do
+			{:ok, user} ->
+				{:ok, user}
+			{:error, changeset} ->
+				{:error, changeset}
 		end
 
 	end

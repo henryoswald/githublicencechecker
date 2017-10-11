@@ -1,0 +1,18 @@
+<section id="content">
+
+  <div class="container">
+    <div class="block-header">
+      <h2>Link a new repository</h2>
+    </div>
+    <%
+      # so we can style it nicely in the future with a little fork symbol
+      repositories = Enum.map(@changeset.repositories , & &1["full_name"])
+    %>
+    <%= form_for @conn, github_link_path(@conn, :create), [as: :github_link], fn f -> %>
+      <%= PBF.select f, :licence, @changeset.licences %>
+      <%= PBF.select f, :repository, repositories %>
+      <%= PBF.submit f %>
+    <% end %>
+
+  </div>
+</section>

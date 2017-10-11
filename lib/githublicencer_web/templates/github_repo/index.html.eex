@@ -1,4 +1,3 @@
-<%= render GithublicencerWeb.BreadcrumbView, "breadcrumbs.html", %{owner: @github_repo_owner, conn: @conn} %>
 
 <section id="content">
 
@@ -17,21 +16,19 @@
 										<table class="table table-hover data-table-basic">
 												<thead>
 												<tr>
-														<th>Owner</th>
-														<th>Name</th>
-														<th>User agreements</th>
-														<th>Commits</th>
+														<th>Repository</th>
+														<th>User agreement</th>
+														<th>Contributors</th>
+														<th>Status</th>
 												</tr>
 												</thead>
 												<tbody>
-													<%= for repo <- @github_repos do %>
-													 <tr class='clickable-row' data-href=<%= github_repo_path(@conn, :show, repo) %>>
-															 <td> <%= repo.owner %> </td>
-															 <td><%= repo.name %></td>
-															 <td> Needs fixing!! </td>
-															 <td><%= repo.commits |> length %></td>
+													<%= for repo <- @repositories do %>
+													 	<tr class='clickable-row' data-href=<%= github_repo_path(@conn, :show, repo) %>>
+															 <td><%= link_to(repo)	%></td>
+															 <td>CLA 123 </td>
+															 <td><%= repo.commiters |> length %></td>
 												 		</tr>
-
 												 <% end %>
 
 

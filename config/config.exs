@@ -17,6 +17,8 @@ config :GithublicencerWeb, GithublicencerWeb.Endpoint,
   pubsub: [name: GithublicencerWeb.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :tentacat, :access_token, "306c871c7024b0583cf6e3ac63e48089c0d1840d"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -24,12 +26,12 @@ config :logger, :console,
 
 config :ueberauth, Ueberauth,
 	  providers: [
-	    github: { Ueberauth.Strategy.Github, [] }
+	    github: { Ueberauth.Strategy.Github, [default_scope: "user:email,repo,admin:repo_hook"] }
 	  ]
 
 config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: "Iv1.397e4d58adb2a8c6",
-  client_secret: "df276319a907e7bf82ea81095bd21441cd8f8e36"
+  client_id: System.get_env("GITHUB_CLIENT_ID"),
+  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

@@ -3,15 +3,19 @@ defmodule GithublicencerWeb.GithubRepo do
   use GithublicencerWeb, :model
 
   schema "github_repos" do
-    field :github_id, :integer
+    field :repository_id, :integer
+    field :fork, :boolean
     field :name, :string
 		field :owner, :string
+		field :hook_id, :integer
+		field :owner_id, :integer
+		field :repository_type, :string
 
     timestamps()
 
 		belongs_to :user, GithublicencerWeb.User
 		has_many :commits, GithublicencerWeb.Commit
-		has_many :commiter, GithublicencerWeb.Commiter
+		has_many :commiters, GithublicencerWeb.Commiter
 
   end
 
@@ -20,8 +24,8 @@ defmodule GithublicencerWeb.GithubRepo do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:github_id, :user_id, :name, :owner])
-    |> validate_required([:github_id, :user_id])
-		|> unique_constraint(:github_id)
+    |> cast(params, [:repository_id, :user_id, :name, :owner, :hook_id, :repository_type, :fork, :owner_id])
+    |> validate_required([:repository_id, :user_id])
+		|> unique_constraint(:user_repositories_index)
   end
 end

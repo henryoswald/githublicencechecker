@@ -5,8 +5,9 @@ defmodule GithublicencerWeb.User do
     field :github_id, :string
     field :name, :string
     field :avatar_url, :string
-    has_many :github_repos, GithublicencerWeb.GithubRepo
-    
+    field :access_token, :string
+    has_many :repositories, GithublicencerWeb.GithubRepo
+
     timestamps()
   end
 
@@ -15,7 +16,7 @@ defmodule GithublicencerWeb.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:github_id, :name, :avatar_url])
-    |> validate_required([:github_id, :name, :avatar_url])
+    |> cast(params, [:github_id, :name, :avatar_url, :access_token])
+    |> validate_required([:github_id, :name, :avatar_url, :access_token])
   end
 end

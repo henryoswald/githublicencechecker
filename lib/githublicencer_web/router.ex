@@ -28,6 +28,8 @@ defmodule GithublicencerWeb.Router do
     get "/", PageController, :index
 
 
+    resources "/github/link", GithubLinkController
+
 		resources "/pullrequests", PullrequestController
 		resources "/github_repo", GithubRepoController do
 			resources "/commiters", CommiterController do
